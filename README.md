@@ -1,5 +1,5 @@
 # KDEtweaks
-LINUX DEBIAN (UBUNTU, MINT, KDE neon usw) aktualisieren mit einem Klick uvw
+### LINUX DEBIAN (UBUNTU, MINT, KDE neon usw) aktualisieren mit einem Klick uvw
 
 Dieses Script benötigt kdialog: sudo apt install konsole kdebase-bin oxygen-icon-theme
 
