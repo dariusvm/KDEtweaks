@@ -78,5 +78,7 @@ Achtung: Script Variablen richtig setzten!
    - Variable "kernel" muss richtig gesetzt sein - seit Ubuntu 16.04.2 wird Rolling HWE Stacks benutzt
 
 
+KDEtweaks.zip enthält Shell-Script und KDE-Desktop-Starter - Dateien müssen ausführbar sein (chmod 0754)
+
 ![KDEtweaks](KDEtweaks_001.png)
 ![KDEtweaks](KDEtweaks_002.png)
