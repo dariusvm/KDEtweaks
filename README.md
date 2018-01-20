@@ -48,7 +48,7 @@ Hier können zurückgebliebene Konfigurationen gelöscht werden - hatte damit no
 
    - deinstalliert man Pakete nicht vollständig, werden die Konfigurationsdateien nicht entfernt
    - diese können z.B. mit Synaptic in der Status Anzeige "Nicht installiert (zurückgebliebene Konfiguration)" gelöscht werden
-   - per Konsole listet ihr Pakete mit 'rc' (remove-candidate) so: dpkg -l | grep ^rc | awk '{print $2}' (diese werden hier mit dem Menüpunkt 7 gelöscht)
+   - per Konsole listet ihr Pakete mit 'rc' (remove-candidate) so: dpkg -l | grep ^rc | awk '{print $2}' (diese werden hier mit dem Menüpunkt 6 gelöscht)
 
 
 Hinweis zu Punkt 7:
@@ -77,6 +77,7 @@ Achtung: Script Variablen richtig setzten!
    - Das Passwort sollte nur gespeichert werden wenn euer Homeverzeichnis verschlüsselt ist
    - Variable "kernel" muss richtig gesetzt sein - seit Ubuntu 16.04.2 wird Rolling HWE Stacks benutzt
 
+---
 
 KDEtweaks.zip enthält Shell-Script und KDE-Desktop-Starter - Dateien müssen ausführbar sein (chmod 0754)
 
