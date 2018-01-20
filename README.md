@@ -81,5 +81,8 @@ Achtung: Script Variablen richtig setzten!
 
 KDEtweaks.zip enthält Shell-Script und KDE-Desktop-Starter - Dateien müssen ausführbar sein (chmod 0754)
 
+---
+
+
 ![KDEtweaks](KDEtweaks_001.png)
 ![KDEtweaks](KDEtweaks_002.png)
