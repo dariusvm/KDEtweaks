@@ -78,3 +78,5 @@ Achtung: Script Variablen richtig setzten!
    - Variable "kernel" muss richtig gesetzt sein - seit Ubuntu 16.04.2 wird Rolling HWE Stacks benutzt
 
 
+![KDEtweaks](https://secure.jolichter.de/smf/tutorials/KDEtweaks/KDEtweaks_001.png)
+![KDEtweaks](https://secure.jolichter.de/smf/tutorials/KDEtweaks/KDEtweaks_002.png)
