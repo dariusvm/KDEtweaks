@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# V18.01.021
+# V18.02.023
 # wenn Script-Dateiname ".KDEtweaks.sh" und Ort /home/USER ist, kann mit dem Dateimanager (z.B.Dolphin)
 # eine "Verknüpfung zu Programm ..." erstellt werden (Kontextmenü -> Neu erstellen)
 # Wichtig! Befehl: konsole -e ~/.KDEtweaks.sh
@@ -8,6 +8,9 @@
 #
 # wenn die Variable passwort leer ist, kommt eine sudo Passwortabfrage
 passwort="";
+#
+# Flatpak ist eine Alternative zu Canonical snap Apps, wenn du das benutzt mit einer 1 aktivieren, sonst 0
+flatpak=0;
 #
 # welcher Kernel wird benutzt? Wichtig für Punkt 4!
 # ab Ubuntu 16.04.2 gibt es Rolling HWE Stacks, wenn dieser verwendet wird dann z.B.: kernel="linux-generic-hwe-16.04 xserver-xorg-hwe-16.04"
@@ -54,11 +57,18 @@ kernel="linux-generic";
 
     case $answer in
         "1")
-        echo $passwort | sudo -S -s apt update -y; sudo apt upgrade -y; sudo apt dist-upgrade -y; sudo apt clean -y; sudo apt autoclean -y; sudo apt-get -f install -y; sudo apt clean -y; sudo apt autoremove --purge -y;
+        echo $passwort | sudo -S -s apt update -y; sudo -S -s apt upgrade -y; sudo -S -s apt dist-upgrade -y; sudo -S -s apt clean -y; sudo -S -s apt autoclean -y; sudo -S -s apt-get -f install -y; sudo -S -s apt clean -y; sudo -S -s apt autoremove --purge -y;
+           if [ $flatpak -gt 0 ]
+              then
+              echo;
+              echo "suche Flatpak updates:";
+              echo $passwort | sudo -S -s flatpak update -y;
+              echo "Done";
+           fi
         kdialog --msgbox "Systemaktualisierung fertig.\nBitte die Konsolenausgabe auf evtl. Fehler prüfen." 2>/dev/null;
         ;;
         "2")
-        echo $passwort | sudo -S -s dpkg --configure -a; sudo apt upgrade -f -y; sudo apt dist-upgrade -f -y;
+        echo $passwort | sudo -S -s dpkg --configure -a; sudo -S -s apt upgrade -f -y; sudo -S -s apt dist-upgrade -f -y;
         kdialog --msgbox "System ist repariert.\nBitte die Konsolenausgabe auf evtl. Fehler prüfen." 2>/dev/null;
         ;;
         "3")
@@ -67,11 +77,11 @@ kernel="linux-generic";
         kdialog --msgbox "Liste der alten Kernel einschließlich der Header-Dateien bis auf den aktuellen.\nHinweis: alte Kernel bis auf die beiden neuesten Kernel werden mit Punkt 1 entfernt." 2>/dev/null;
         ;;
         "4")
-        echo $passwort | sudo -S -s apt install --reinstall linux-image-$(uname -r); sudo apt install $kernel -y;
+        echo $passwort | sudo -S -s apt install --reinstall linux-image-$(uname -r); sudo -S -s apt install $kernel -y;
         kdialog --msgbox "Aktueller Kernel wurde wieder hergestellt.\nBitte die Konsolenausgabe auf evtl. Fehler prüfen." 2>/dev/null;
         ;;
         "5")
-        echo $passwort | sudo -S -s dpkg-reconfigure locales -u; sudo update-locale LANG=de_DE.UTF-8; sudo locale-gen --purge --no-archive; sudo update-initramfs -u -k all;
+        echo $passwort | sudo -S -s dpkg-reconfigure locales -u; sudo -S -s update-locale LANG=de_DE.UTF-8; sudo -S -s locale-gen --purge --no-archive; sudo -S -s update-initramfs -u -k all;
         kdialog --msgbox "UTF-8 Fehler wurden behoben.\nBitte die Konsolenausgabe auf evtl. Fehler prüfen." 2>/dev/null;
         ;;
         "6")
@@ -79,7 +89,7 @@ kernel="linux-generic";
         kdialog --msgbox "Zurückgebliebene Konfiguration wurden gelöscht.\nBitte die Konsolenausgabe auf evtl. Fehler prüfen." 2>/dev/null;
         ;;
         "7")
-        echo $passwort | sudo -S -s rm -rf /var/lib/apt/lists/*; sudo apt update -y;
+        echo $passwort | sudo -S -s rm -rf /var/lib/apt/lists/*; sudo -S -s apt update -y;
         kdialog --msgbox "Paketlisten wurden aufgeräumt.\nBitte die Konsolenausgabe auf evtl. Fehler prüfen." 2>/dev/null;
         ;;
         "8")
@@ -146,8 +156,8 @@ kernel="linux-generic";
                echo "Hinweis: alle deine *.sh und *.desktop Dateien im Homeordner sind ausführbar und";
                echo "shellscripts ohne .sh Dateiendung sind nicht ausführbar, das musst du manuell tun!";
             ;;
-            1) echo "*** alle Dateien ausser im Ordner ~/public_html gehören dir ***";
-               echo "*** nur diese Dateien (User: www-data) sollten hier gelistet werden ***";
+            1) echo "*** alle Dateien - ausser im Ordner ~/public_html - gehören dir ***";
+               echo "*** nur Dateien im Ordner ~/public_html (User: www-data) sollten hier gelistet werden ***";
                echo "Hinweis: alle deine *.sh und *.desktop Dateien im Homeordner sind ausführbar und";
                echo "shellscripts ohne .sh Dateiendung sind nicht ausführbar, das musst du manuell tun!";
             ;;
