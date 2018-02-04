@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# V18.02.023
+# V18.02.024
 # wenn Script-Dateiname ".KDEtweaks.sh" und Ort /home/USER ist, kann mit dem Dateimanager (z.B.Dolphin)
 # eine "Verknüpfung zu Programm ..." erstellt werden (Kontextmenü -> Neu erstellen)
 # Wichtig! Befehl: konsole -e ~/.KDEtweaks.sh
@@ -16,8 +16,8 @@ flatpak=0;
 # ab Ubuntu 16.04.2 gibt es Rolling HWE Stacks, wenn dieser verwendet wird dann z.B.: kernel="linux-generic-hwe-16.04 xserver-xorg-hwe-16.04"
 kernel="linux-generic";
 #
-# wenn Tor-Browser benutzt wird (https://www.torproject.org/download/download.html)
-#torVerzeichnis=".tor-browser";
+# wenn Tor-Browser lokal installiert ist (https://www.torproject.org/download/download.html), hier den Ort eintragen
+torVerzeichnis=".tor-browser";
 #
 #
 # ab hier nur ändern wenn du weisst was du tust!
@@ -124,7 +124,7 @@ kernel="linux-generic";
             case "$tor" in
             0) echo ""; #dummy
             ;;
-            1) # bestimmte Tor-Dateien müssem ausführbar sein
+            1) # bestimmte Tor-Dateien müssen ausführbar sein
                chmod 754 /home/$USER/$torVerzeichnis/Browser/TorBrowser/Tor/tor;
                 chmod 754 /home/$USER/$torVerzeichnis/Browser/execdesktop;
                  chmod 754 /home/$USER/$torVerzeichnis/Browser/firefox;
@@ -145,19 +145,21 @@ kernel="linux-generic";
         # Im Homeordner sollten sich keine Dateien befinden die nicht dem Benutzer gehören!
         # wenn das Apache Modul mod_userdir und ~/public_html benutzt wird, sollten nur Dateien gelistet die der Gruppe www-data gehören
 
-        # Liste Dateien die nicht dem Benutzer gehören
-        find ~ ! -user $USER -ls;
+        # Liste Dateien die nicht dem Benutzer oder www-data gehören!
+        find ~ ! -user $USER -and ! -user www-data -ls;
         echo "";
         echo "##################################################################################";
         echo "";
 
             case "$html" in
             0) echo "*** hier sollte nichts stehen und alle Dateien gehören dir ***";
+               echo "";
                echo "Hinweis: alle deine *.sh und *.desktop Dateien im Homeordner sind ausführbar und";
                echo "shellscripts ohne .sh Dateiendung sind nicht ausführbar, das musst du manuell tun!";
             ;;
-            1) echo "*** alle Dateien - ausser im Ordner ~/public_html - gehören dir ***";
-               echo "*** nur Dateien im Ordner ~/public_html (User: www-data) sollten hier gelistet werden ***";
+            1) echo "*** hier sollte nichts stehen und alle Dateien - ausser im Ordner ~/public_html - gehören dir ***";
+               echo "*** nur Dateien im Ordner ~/public_html gehören dem User www-data ***";
+               echo "";
                echo "Hinweis: alle deine *.sh und *.desktop Dateien im Homeordner sind ausführbar und";
                echo "shellscripts ohne .sh Dateiendung sind nicht ausführbar, das musst du manuell tun!";
             ;;
