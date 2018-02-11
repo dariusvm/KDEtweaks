@@ -1,4 +1,4 @@
-# KDEtweaks V18.02.026
+# KDEtweaks V18.02.027
 ### LINUX DEBIAN (UBUNTU, MINT, KDE neon usw) aktualisieren mit einem Klick uvw
 
 Dieses Script benötigt kdialog: sudo apt install konsole kdebase-bin oxygen-icon-theme
@@ -61,7 +61,7 @@ Hinweis zu Punkt 8:
 Benutzte man für eine grafische Anwendungen sudo anstatt kdesudo (gksudo) kann das zu Rechte-Probleme führen.
 Merke: Für Anwendungen mit einer GUI, nie sudo benutzen! Beheben könnt ihr das mit diesem Punkt, beachtet aber folgendes:
 
-   - alle Dateien im home Ordner werden dem Homeuser zugeschrieben, dabei werden auch alle *.sh, *.desktop und *.json Dateien ausführbar gemacht (chmod 0754)
+   - alle Dateien im home Ordner werden dem Home User zugeschrieben, dabei werden auch alle *.sh, und *.desktop Dateien ausführbar gemacht (chmod 0754)
    - wenn vorhanden werden die Zugriffsrechte des Ordners ~/public_html auch angepasst (siehe Apache Modul mod_userdir)
 
 
