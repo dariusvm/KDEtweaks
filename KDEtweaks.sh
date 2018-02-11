@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# V18.02.025
+# V18.02.026
 # wenn Script-Dateiname ".KDEtweaks.sh" und Ort /home/USER ist, kann mit dem Dateimanager (z.B.Dolphin)
 # eine "Verknüpfung zu Programm ..." erstellt werden (Kontextmenü -> Neu erstellen)
 # Wichtig! Befehl: konsole -e ~/.KDEtweaks.sh
@@ -20,14 +20,14 @@ kernel="linux-generic";
 #
 #
 # ab hier nur ändern wenn du weisst was du tust!
-    # gibt es ein public_html im home Ordner?
+    # gibt es ein public_html im Homeordner?
     if [ -d ~/public_html ]; then
        html="1";
        else
        html="0";
-    fi
+    fi 
 
-    if [ $passwort ] # Abfrage Passwort
+    if [ $passwort ] # Abfrage Passwort 
         then
         echo ">--------------------------------------------------";
         echo "Hinweis: Dein Passwort ist im Script gespeichert";
@@ -95,11 +95,12 @@ kernel="linux-generic";
         sudo chown -R $USER:$USER /home/$USER/;
 
         # Zugriffsrechte: alle /home Dateien chmod 644 und Ordner chmod 755 geben
-        # ACHTUNG! Wer Programme ohne sudo unter /home (z.B. Flatpak mit dem Flag --user) installiert hat,
-        # sollte das nicht tun, daher ist diese Linie deaktiviert!
-        #sudo find /home/$USER/ \( -type d -exec chmod 755 {} + \) -and \( -type f -exec chmod 644 {} + \);
+        # ACHTUNG! Wer Programme ohne sudo unter /home installiert hat (z.B. Flatpak mit dem Flag --user), sollte das nicht tun, daher sind diese 2 Linien deaktiviert!
+        #sudo find /home/$USER/ \( -type d -exec chmod 755 {} + \);
+        #sudo find /home/$USER/ \( -type f -exec chmod 644 {} + \);
 
-            # nur wenn es im Homeordner ein public_html gibt:
+
+            # nur wenn es im home Ordner ein public_html gibt:
             case "$html" in
             0) echo ""; #dummy
             ;;
@@ -109,7 +110,8 @@ kernel="linux-generic";
 
                # Zugriffsrechte: alle public_html Dateien chmod 664 und Ordner chmod 775 geben
                # nur aktivieren wenn ~/public_html benutzt wird!
-               sudo find /home/$USER/public_html/ \( -type d -exec chmod 775 {} + \) -and \( -type f -exec chmod 664 {} + \);
+               sudo find /home/$USER/public_html/ \( -type d -exec chmod 775 {} + \);
+               sudo find /home/$USER/public_html/ \( -type f -exec chmod 664 {} + \);
             ;;
             *) echo "error html";;
             esac
