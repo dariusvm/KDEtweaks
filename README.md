@@ -1,4 +1,4 @@
-# KDEtweaks V18.02.025
+# KDEtweaks V18.02.026
 ### LINUX DEBIAN (UBUNTU, MINT, KDE neon usw) aktualisieren mit einem Klick uvw
 
 Dieses Script benötigt kdialog: sudo apt install konsole kdebase-bin oxygen-icon-theme
@@ -77,9 +77,7 @@ Achtung: Script Variablen richtig setzten!
    - Flatpak ist eine Alternative zu Canonical snap Apps - Flatpak Updates kann mit "flatpak=1" aktiviert werden
    - Variable "kernel" muss richtig gesetzt sein - seit Ubuntu 16.04.2 wird Rolling HWE Stacks benutzt
 
----
 
-KDEtweaks.zip enthält Shell-Script und KDE-Desktop-Starter - Dateien müssen ausführbar sein (chmod 0754)
 
 ---
 
