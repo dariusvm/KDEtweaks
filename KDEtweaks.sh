@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# V18.02.024
+# V18.02.025
 # wenn Script-Dateiname ".KDEtweaks.sh" und Ort /home/USER ist, kann mit dem Dateimanager (z.B.Dolphin)
 # eine "Verknüpfung zu Programm ..." erstellt werden (Kontextmenü -> Neu erstellen)
 # Wichtig! Befehl: konsole -e ~/.KDEtweaks.sh
@@ -16,26 +16,18 @@ flatpak=0;
 # ab Ubuntu 16.04.2 gibt es Rolling HWE Stacks, wenn dieser verwendet wird dann z.B.: kernel="linux-generic-hwe-16.04 xserver-xorg-hwe-16.04"
 kernel="linux-generic";
 #
-# wenn Tor-Browser lokal installiert ist (https://www.torproject.org/download/download.html), hier den Ort eintragen
-torVerzeichnis=".tor-browser";
+#
 #
 #
 # ab hier nur ändern wenn du weisst was du tust!
-    # gibt es ein public_html im Homeordner?
+    # gibt es ein public_html im home Ordner?
     if [ -d ~/public_html ]; then
        html="1";
        else
        html="0";
     fi
- 
-    # gibt es einen Tor-Browser im Homeordner?
-    if [ -d ~/$torVerzeichnis ]; then
-       tor="1";
-       else
-       tor="0";
-    fi
 
-    if [ $passwort ] # Abfrage Passwort 
+    if [ $passwort ] # Abfrage Passwort
         then
         echo ">--------------------------------------------------";
         echo "Hinweis: Dein Passwort ist im Script gespeichert";
@@ -57,7 +49,7 @@ torVerzeichnis=".tor-browser";
 
     case $answer in
         "1")
-        echo $passwort | sudo -S -s apt update -y; sudo -S -s apt upgrade -y; sudo -S -s apt dist-upgrade -y; sudo -S -s apt clean -y; sudo -S -s apt autoclean -y; sudo -S -s apt-get -f install -y; sudo -S -s apt clean -y; sudo -S -s apt autoremove --purge -y;
+        echo $passwort | sudo -S -s apt update -y; sudo -S -s apt upgrade -y; sudo -S -s apt dist-upgrade -y; sudo -S -s apt clean -y; sudo -S -s apt autoclean -y; sudo -S -s apt-get -f install -y;  sudo -S -s apt autoremove --purge -y;
            if [ $flatpak -gt 0 ]
               then
               echo;
@@ -103,7 +95,9 @@ torVerzeichnis=".tor-browser";
         sudo chown -R $USER:$USER /home/$USER/;
 
         # Zugriffsrechte: alle /home Dateien chmod 644 und Ordner chmod 755 geben
-        sudo find /home/$USER/ \( -type d -exec chmod 755 {} + \) -or \( -type f -exec chmod 644 {} + \);
+        # ACHTUNG! Wer Programme ohne sudo unter /home (z.B. Flatpak mit dem Flag --user) installiert hat,
+        # sollte das nicht tun, daher ist diese Linie deaktiviert!
+        #sudo find /home/$USER/ \( -type d -exec chmod 755 {} + \) -and \( -type f -exec chmod 644 {} + \);
 
             # nur wenn es im Homeordner ein public_html gibt:
             case "$html" in
@@ -115,35 +109,21 @@ torVerzeichnis=".tor-browser";
 
                # Zugriffsrechte: alle public_html Dateien chmod 664 und Ordner chmod 775 geben
                # nur aktivieren wenn ~/public_html benutzt wird!
-               sudo find /home/$USER/public_html/ \( -type d -exec chmod 775 {} + \) -or \( -type f -exec chmod 664 {} + \);
+               sudo find /home/$USER/public_html/ \( -type d -exec chmod 775 {} + \) -and \( -type f -exec chmod 664 {} + \);
             ;;
             *) echo "error html";;
             esac
 
-            # nur wenn es im Homeordner einen Tor-Browser gibt:
-            case "$tor" in
-            0) echo ""; #dummy
-            ;;
-            1) # bestimmte Tor-Dateien müssen ausführbar sein
-               chmod 754 /home/$USER/$torVerzeichnis/Browser/TorBrowser/Tor/tor;
-                chmod 754 /home/$USER/$torVerzeichnis/Browser/execdesktop;
-                 chmod 754 /home/$USER/$torVerzeichnis/Browser/firefox;
-                  chmod 754 /home/$USER/$torVerzeichnis/Browser/execdesktop;
-                   chmod 754 /home/$USER/$torVerzeichnis/Browser/plugin-container;
-                    chmod 754 /home/$USER/$torVerzeichnis/Browser/start-tor-browser;
-                      chmod 754 /home/$USER/$torVerzeichnis/Browser/updater;
-            ;;
-            *) echo "error tor";;
-            esac
 
-        # *.sh und *.desktop ausführbar machen
+        # *.sh und *.desktop und *.json ausführbar machen
         sudo find /home/$USER/ -name "*.sh" -exec chmod 0754 {} \;
         sudo find /home/$USER/ -name "*.desktop" -exec chmod 0754 {} \;
+        sudo find /home/$USER/ -name "*.json" -exec chmod 0754 {} \;
 
         clear;
 
         # Im Homeordner sollten sich keine Dateien befinden die nicht dem Benutzer gehören!
-        # wenn das Apache Modul mod_userdir und ~/public_html benutzt wird, sollten nur Dateien gelistet die der Gruppe www-data gehören
+        # Ausnahme: Wenn das Apache Modul mod_userdir und ~/public_html benutzt wird, gehören diese Dateien der Gruppe www-data.
 
         # Liste Dateien die nicht dem Benutzer oder www-data gehören!
         find ~ ! -user $USER -and ! -user www-data -ls;
@@ -154,18 +134,18 @@ torVerzeichnis=".tor-browser";
             case "$html" in
             0) echo "*** hier sollte nichts stehen und alle Dateien gehören dir ***";
                echo "";
-               echo "Hinweis: alle deine *.sh und *.desktop Dateien im Homeordner sind ausführbar und";
-               echo "shellscripts ohne .sh Dateiendung sind nicht ausführbar, das musst du manuell tun!";
+               echo "Hinweis: alle deine *.sh, *.desktop und *.json Dateien im Homeordner sind ausführbar!";
             ;;
             1) echo "*** hier sollte nichts stehen und alle Dateien - ausser im Ordner ~/public_html - gehören dir ***";
-               echo "*** nur Dateien im Ordner ~/public_html gehören dem User www-data ***";
+               echo "*** Dateien im Ordner ~/public_html gehören dem User www-data und chmod ist 664 bzw. 775 ***";
                echo "";
-               echo "Hinweis: alle deine *.sh und *.desktop Dateien im Homeordner sind ausführbar und";
-               echo "shellscripts ohne .sh Dateiendung sind nicht ausführbar, das musst du manuell tun!";
+               echo "Hinweis: alle deine *.sh, *.desktop und *.json Dateien im Homeordner sind ausführbar!";
             ;;
             *) echo "error2";;
             esac
 
+        echo "";
+        echo "##################################################################################";
         echo "";
         kdialog --msgbox "Zugriffsrechte und Besitzer neu gesetzt.\nBitte die Konsolenausgabe auf evtl. Fehler prüfen." 2>/dev/null;
         ;;
