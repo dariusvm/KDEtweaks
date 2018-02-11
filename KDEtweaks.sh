@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# V18.02.026
+# V18.02.027
 # wenn Script-Dateiname ".KDEtweaks.sh" und Ort /home/USER ist, kann mit dem Dateimanager (z.B.Dolphin)
 # eine "Verknüpfung zu Programm ..." erstellt werden (Kontextmenü -> Neu erstellen)
 # Wichtig! Befehl: konsole -e ~/.KDEtweaks.sh
@@ -9,12 +9,21 @@
 # wenn die Variable passwort leer ist, kommt eine sudo Passwortabfrage
 passwort="";
 #
+#
 # Flatpak ist eine Alternative zu Canonical snap Apps, wenn du das benutzt mit einer 1 aktivieren, sonst 0
 flatpak=0;
+#
 #
 # welcher Kernel wird benutzt? Wichtig für Punkt 4!
 # ab Ubuntu 16.04.2 gibt es Rolling HWE Stacks, wenn dieser verwendet wird dann z.B.: kernel="linux-generic-hwe-16.04 xserver-xorg-hwe-16.04"
 kernel="linux-generic";
+#
+#
+# Zugriffsrechte: alle /home Dateien chmod 644 und Ordner chmod 755 geben, wenn du das willst mit einer 1 aktivieren, sonst 0
+# ACHTUNG! Wer Programme ohne sudo unter /home installiert hat (z.B. Tor Browser oder ein Flatpak mit dem Flag --user), sollte das nicht tun!
+# *.sh und *.desktop Dateien werden ausführbar gemacht - Dateien ohne diese Extension sind dann nicht ausführbar!
+# Wenn du mit Linux Zugriffsrechte nichts anfangen kannst, belasse es auf 0 !
+zugriffsrechte=0;
 #
 #
 #
@@ -92,13 +101,15 @@ kernel="linux-generic";
         echo "Bitte warten...";
 
         # Besitzer: alle /home Dateien dem aktuellen Benutzer geben
-        sudo chown -R $USER:$USER /home/$USER/;
+        sudo chown -R $USER:$USER /home/$USER/;        
 
-        # Zugriffsrechte: alle /home Dateien chmod 644 und Ordner chmod 755 geben
-        # ACHTUNG! Wer Programme ohne sudo unter /home installiert hat (z.B. Flatpak mit dem Flag --user), sollte das nicht tun, daher sind diese 2 Linien deaktiviert!
-        #sudo find /home/$USER/ \( -type d -exec chmod 755 {} + \);
-        #sudo find /home/$USER/ \( -type f -exec chmod 644 {} + \);
-
+            # Zugriffsrechte: alle /home Dateien chmod 644 und Ordner chmod 755 geben
+            if [ $zugriffsrechte -gt 0 ]
+              then
+              sudo find /home/$USER/ \( -type d -exec chmod 755 {} + \);
+              sudo find /home/$USER/ \( -type f -exec chmod 644 {} + \);
+            fi
+        
 
             # nur wenn es im home Ordner ein public_html gibt:
             case "$html" in
@@ -117,10 +128,9 @@ kernel="linux-generic";
             esac
 
 
-        # *.sh und *.desktop und *.json ausführbar machen
-        sudo find /home/$USER/ -name "*.sh" -exec chmod 0754 {} \;
-        sudo find /home/$USER/ -name "*.desktop" -exec chmod 0754 {} \;
-        sudo find /home/$USER/ -name "*.json" -exec chmod 0754 {} \;
+            # *.sh und *.desktop ausführbar machen
+            sudo find /home/$USER/ -name "*.sh" -exec chmod 0754 {} \;
+            sudo find /home/$USER/ -name "*.desktop" -exec chmod 0754 {} \;
 
         clear;
 
@@ -136,12 +146,12 @@ kernel="linux-generic";
             case "$html" in
             0) echo "*** hier sollte nichts stehen und alle Dateien gehören dir ***";
                echo "";
-               echo "Hinweis: alle deine *.sh, *.desktop und *.json Dateien im Homeordner sind ausführbar!";
+               echo "Hinweis: alle deine *.sh und *.desktop Dateien im Homeordner sind ausführbar!";
             ;;
             1) echo "*** hier sollte nichts stehen und alle Dateien - ausser im Ordner ~/public_html - gehören dir ***";
                echo "*** Dateien im Ordner ~/public_html gehören dem User www-data und chmod ist 664 bzw. 775 ***";
                echo "";
-               echo "Hinweis: alle deine *.sh, *.desktop und *.json Dateien im Homeordner sind ausführbar!";
+               echo "Hinweis: alle deine *.sh und *.desktop Dateien im Homeordner sind ausführbar!";
             ;;
             *) echo "error2";;
             esac
