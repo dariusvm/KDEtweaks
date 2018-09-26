@@ -1,4 +1,4 @@
-# KDEtweaks V18.02.027
+# KDEtweaks V18.02.028
 ### LINUX DEBIAN (UBUNTU, MINT, KDE neon usw) aktualisieren mit einem Klick uvw
 
 Dieses Script benötigt kdialog: sudo apt install konsole kdebase-bin oxygen-icon-theme
@@ -34,7 +34,8 @@ Diese Punkte können immer gefahrlos ausgeführt werden
 Hinweis zu Punkt 4:
 
    - Punkt 1 entfernt alte Kernel bis auf die beiden neuesten Kernel
-   - ab Ubuntu 16.04.2 gibt es Rolling HWE Stacks und muss - wenn verwendet - im Script aktiviert werden!
+   - ab Ubuntu 16.04.2 oder 18.04.2 gibt es Rolling HWE Stacks und muss - wenn verwendet - im Script aktiviert werden!
+   - Quelle: https://wiki.ubuntu.com/Kernel/LTSEnablementStack
 
 
 Hinweis zu Punkt 5:
