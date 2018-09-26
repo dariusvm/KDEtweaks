@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# V18.02.027
+# V18.02.028
 # wenn Script-Dateiname ".KDEtweaks.sh" und Ort /home/USER ist, kann mit dem Dateimanager (z.B.Dolphin)
 # eine "Verknüpfung zu Programm ..." erstellt werden (Kontextmenü -> Neu erstellen)
 # Wichtig! Befehl: konsole -e ~/.KDEtweaks.sh
@@ -16,6 +16,7 @@ flatpak=0;
 #
 # welcher Kernel wird benutzt? Wichtig für Punkt 4!
 # ab Ubuntu 16.04.2 gibt es Rolling HWE Stacks, wenn dieser verwendet wird dann z.B.: kernel="linux-generic-hwe-16.04 xserver-xorg-hwe-16.04"
+# ab Ubuntu 18.04 ist es wieder "linux-generic" und bei 18.04.2 wird es wahrscheinlich ab Feb. 2019 "linux-generic-hwe-18.04 xserver-xorg-hwe-18.04"
 kernel="linux-generic";
 #
 #
