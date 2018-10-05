@@ -1,7 +1,7 @@
 # KDEtweaks V18.09.028
 ### LINUX DEBIAN (UBUNTU, MINT, KDE neon usw) aktualisieren mit einem Klick uvw
 
-Dieses Script benötigt kdialog: sudo apt install konsole kdebase-bin oxygen-icon-theme
+Dieses Script benötigt kdialog: sudo apt install konsole kde-baseapps-bin oxygen-icon-theme
 
 Ein Klick und ohne Abfrage das komplette LINUX-System aktualisieren, reinigen, alte Kernel löschen oder reparieren
 Dieses Script lässt sich gut als Miniprogramm in die Fensterleiste einfügen und kann ohne Passwortabfrage gestartet werden.
