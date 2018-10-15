@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# V18.09.028
+# V18.09.029
 # wenn Script-Dateiname ".KDEtweaks.sh" und Ort /home/USER ist, kann mit dem Dateimanager (z.B.Dolphin)
 # eine "Verknüpfung zu Programm ..." erstellt werden (Kontextmenü -> Neu erstellen)
 # Wichtig! Befehl: konsole -e ~/.KDEtweaks.sh
@@ -130,8 +130,8 @@ zugriffsrechte=0;
 
 
             # *.sh und *.desktop ausführbar machen
-            sudo find /home/$USER/ -name "*.sh" -exec chmod 0754 {} \;
-            sudo find /home/$USER/ -name "*.desktop" -exec chmod 0754 {} \;
+            sudo find /home/$USER/ -name "*.sh" -exec chmod 0744 {} \;
+            sudo find /home/$USER/ -name "*.desktop" -exec chmod 0744 {} \;
 
         clear;
 
