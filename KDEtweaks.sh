@@ -1,9 +1,9 @@
 #! /bin/bash
 #
-# V18.09.029
-# wenn Script-Dateiname ".KDEtweaks.sh" und Ort /home/USER ist, kann mit dem Dateimanager (z.B.Dolphin)
+# V19.03.032
+# wenn Script-Dateiname ".KDEtweaks.sh" und Ort /home/USER/bin/ ist, kann mit dem Dateimanager (z.B.Dolphin)
 # eine "Verknüpfung zu Programm ..." erstellt werden (Kontextmenü -> Neu erstellen)
-# Wichtig! Befehl: konsole -e ~/.KDEtweaks.sh
+# Wichtig! Befehl: konsole -e ~/bin/KDEtweaks.sh
 #
 #
 # wenn die Variable passwort leer ist, kommt eine sudo Passwortabfrage
@@ -23,7 +23,10 @@ kernel="linux-generic";
 # Zugriffsrechte: alle /home Dateien chmod 644 und Ordner chmod 755 geben, wenn du das willst mit einer 1 aktivieren, sonst 0
 # ACHTUNG! Wer Programme ohne sudo unter /home installiert hat (z.B. Tor Browser oder ein Flatpak mit dem Flag --user), sollte das nicht tun!
 # *.sh und *.desktop Dateien werden ausführbar gemacht - Dateien ohne diese Extension sind dann nicht ausführbar!
+# Setzt die Datei .xsession-errors auf 0 Bytes und unveränderbar!
 # Wenn du mit Linux Zugriffsrechte nichts anfangen kannst, belasse es auf 0 !
+
+
 zugriffsrechte=0;
 #
 #
@@ -35,9 +38,9 @@ zugriffsrechte=0;
        html="1";
        else
        html="0";
-    fi 
+    fi
 
-    if [ $passwort ] # Abfrage Passwort 
+    if [ $passwort ] # Abfrage Passwort
         then
         echo ">--------------------------------------------------";
         echo "Hinweis: Dein Passwort ist im Script gespeichert";
@@ -55,7 +58,8 @@ zugriffsrechte=0;
 
     answer=`kdialog --radiolist "Bitte wähle:" 1 "System aktualisieren und reinigen" on 2 "Pakete reparieren" off \
     3 "alte Linux-Kernel anzeigen" off 4 "Linux-Kernel wieder herstellen" off 5 "UTF-8 Fehler beheben" off \
-    6 "alte Konfigurationen löschen" off 7 "Paketlisten aufräumen" off 8 "Zugriffsrechte aktualisieren" off 9 "Obsolete Pakete anzeigen" off 2>/dev/null`;
+    6 "alte Konfigurationen löschen" off 7 "Paketlisten aufräumen" off \
+    8 "Zugriffsrechte aktualisieren" off 9 "Obsolete Pakete anzeigen" off 10 "NVME SSD S.M.A.R.T. LOG" off 2>/dev/null`;
 
     case $answer in
         "1")
@@ -102,7 +106,8 @@ zugriffsrechte=0;
         echo "Bitte warten...";
 
         # Besitzer: alle /home Dateien dem aktuellen Benutzer geben
-        sudo chown -R $USER:$USER /home/$USER/;        
+        sudo chattr -i /home/$USER/.xsession-errors;         # veränderlich Attribut setzen
+        sudo chown -R $USER:$USER /home/$USER/;
 
             # Zugriffsrechte: alle /home Dateien chmod 644 und Ordner chmod 755 geben
             if [ $zugriffsrechte -gt 0 ]
@@ -110,7 +115,7 @@ zugriffsrechte=0;
               sudo find /home/$USER/ \( -type d -exec chmod 755 {} + \);
               sudo find /home/$USER/ \( -type f -exec chmod 644 {} + \);
             fi
-        
+       
 
             # nur wenn es im home Ordner ein public_html gibt:
             case "$html" in
@@ -132,10 +137,16 @@ zugriffsrechte=0;
             # *.sh und *.desktop ausführbar machen
             sudo find /home/$USER/ -name "*.sh" -exec chmod 0744 {} \;
             sudo find /home/$USER/ -name "*.desktop" -exec chmod 0744 {} \;
+                        
+            # .xsession-errors wird auf 0 Bytes gesetzt (gelöscht und wieder erstellt) und dann ein unveränderlich Attribut gesetzt,
+            # wodurch verhindert wird, dass ein Prozess darauf schreibt (SSD Festplatten freuen sich ;-)
+            rm -f /home/$USER/.xsession-errors;
+            touch /home/$USER/.xsession-errors;
+            sudo chattr +i /home/$USER/.xsession-errors;
 
         clear;
 
-        # Im Homeordner sollten sich keine Dateien befinden die nicht dem Benutzer gehören!
+        # Im home Ordner sollten sich keine Dateien befinden die nicht dem Benutzer gehören!
         # Ausnahme: Wenn das Apache Modul mod_userdir und ~/public_html benutzt wird, gehören diese Dateien der Gruppe www-data.
 
         # Liste Dateien die nicht dem Benutzer oder www-data gehören!
@@ -168,6 +179,12 @@ zugriffsrechte=0;
         aptitude search '?obsolete';
         kdialog --msgbox "Liste von obsoleten Pakete können auch von Drittanbietern stammen.\nDaher sollten diese nur manuell gelöscht werden!\nTipp: Benutze dafür die Synaptic Paketverwaltung." 2>/dev/null;
         ;;
+        "10")
+        #echo $passwort | sudo -S -s apt install nvme-cli -y; #wenn nicht installiert
+        #reset;
+        echo $passwort | sudo -S -s sudo nvme --smart-log /dev/nvme0n1;
+        kdialog --msgbox "NVME SSD DEVICE S.M.A.R.T. LOG" 2>/dev/null;
+        ;;        
         *) echo "abgebrochen";;
     esac
 
