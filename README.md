@@ -1,4 +1,4 @@
-# KDEtweaks V18.09.029
+# KDEtweaks V19.03.032
 ### LINUX DEBIAN (UBUNTU, MINT, KDE neon usw) aktualisieren mit einem Klick uvw
 
 Dieses Script benötigt kdialog: sudo apt install konsole kde-baseapps-bin oxygen-icon-theme
@@ -6,7 +6,7 @@ Dieses Script benötigt kdialog: sudo apt install konsole kde-baseapps-bin oxyge
 Ein Klick und ohne Abfrage das komplette LINUX-System aktualisieren, reinigen, alte Kernel löschen oder reparieren
 Dieses Script lässt sich gut als Miniprogramm in die Fensterleiste einfügen und kann ohne Passwortabfrage gestartet werden.
 
-Zur besseren Überwachung was abläuft, sollte alles immer in der Konsole (Termnial) laufen wie im Script beschrieben (konsole -e ~/.KDEtweaks.sh).
+Zur besseren Überwachung was abläuft, sollte alles immer in der Konsole (Termnial) laufen wie im Script beschrieben (konsole -e ~/bin/KDEtweaks.sh).
 Alles ohne Gewähr! Macht Backups!
 
 Mit dieser Shell-Script könnt ihr per Menü:
@@ -20,9 +20,9 @@ Mit dieser Shell-Script könnt ihr per Menü:
     7) Paketlisten aufräumen
     8) Zugriffsrechte/Besitzer aktualisieren
     9) Obsolete Pakete anzeigen
+    10) NVMe SSD DEVICE S.M.A.R.T. LOG
 
-
-Hinweis zu Punkt 1/2/3/9:
+Hinweis zu Punkt 1/2/3/9/10:
 Diese Punkte können immer gefahrlos ausgeführt werden
 
    - neueinlesen der Paketlisten und installierte Pakete wenn möglich auf verbesserte Version aktualisieren und alte entfernen
@@ -59,6 +59,7 @@ Hinweis zu Punkt 7:
 
 
 Hinweis zu Punkt 8:
+
 Benutzte man für eine grafische Anwendungen sudo anstatt kdesudo (gksudo) kann das zu Rechte-Probleme führen.
 Merke: Für Anwendungen mit einer GUI, nie sudo benutzen! Beheben könnt ihr das mit diesem Punkt, beachtet aber folgendes:
 
@@ -67,9 +68,16 @@ Merke: Für Anwendungen mit einer GUI, nie sudo benutzen! Beheben könnt ihr das
 
 
 Hinweis zu Punkt 9:
+
 Jedes Debian Paket durchläuft verschiedene Zweige innerhalb der Distribution von Experimental bis Stable. So kann es vorkommen das ein Paket nicht mehr durch den Upstream-Entwickler weiterentwickelt wird oder nicht mehr innerhalb von Debian betreut wird. Genauso gut kann ein Paket aus wichtigen Gründen umbenannt worden sein.
 Zurück bleiben irgendwann nur noch obsolete Pakete, die keine Sicherheitsaktualisierungen mehr erhalten und im schlimmsten Fall nutzlos auf der Festplatte verkümmern. Nicht immer möchte man alle als obsolet eingestuften Pakete löschen.
 Wenn man Pakete von Drittanbietern installiert hat, also manuell wie z.B. Skype (*.deb), würden diese mit purge ebenfalls entfernt. Damit so was nicht passiert, geht das übersichtlich mit der grafischen Synaptic Paketverwaltung in der Sektion "Installiert (lokal oder veraltet)".
+
+
+Hinweis zu Punkt 10:
+
+wenn nicht installiert, wird das Paket 'nvme-cli' installiert
+
 
 Achtung: Script Variablen richtig setzten!
 
