@@ -1,12 +1,15 @@
 #! /bin/bash
 #
-# V19.03.032
+version="V19.05.033";
+# Neu seit 33: nutze zusätzlich als ersten Befehl das Toolkit pkcon, wie von den KDE neon Entwickler empfohlen (apt bleibt, z.B. um alten Kernel zu entfernen)
+# Quelle: https://neon.kde.org/faq#command-to-update
+#
 # wenn Script-Dateiname ".KDEtweaks.sh" und Ort /home/USER/bin/ ist, kann mit dem Dateimanager (z.B.Dolphin)
 # eine "Verknüpfung zu Programm ..." erstellt werden (Kontextmenü -> Neu erstellen)
 # Wichtig! Befehl: konsole -e ~/bin/KDEtweaks.sh
 #
 #
-# wenn die Variable passwort leer ist, kommt eine sudo Passwortabfrage
+# wenn die Variable passwort leer ist, kommt bei Bedarf eine sudo Passwortabfrage
 passwort="";
 #
 #
@@ -40,6 +43,8 @@ zugriffsrechte=0;
        html="0";
     fi
 
+    echo $version;
+    
     if [ $passwort ] # Abfrage Passwort
         then
         echo ">--------------------------------------------------";
@@ -59,11 +64,14 @@ zugriffsrechte=0;
     answer=`kdialog --radiolist "Bitte wähle:" 1 "System aktualisieren und reinigen" on 2 "Pakete reparieren" off \
     3 "alte Linux-Kernel anzeigen" off 4 "Linux-Kernel wieder herstellen" off 5 "UTF-8 Fehler beheben" off \
     6 "alte Konfigurationen löschen" off 7 "Paketlisten aufräumen" off \
-    8 "Zugriffsrechte aktualisieren" off 9 "Obsolete Pakete anzeigen" off 10 "NVME SSD S.M.A.R.T. LOG" off 2>/dev/null`;
+    8 "Zugriffsrechte aktualisieren" off 9 "Obsolete Pakete anzeigen" off 10 "NVMe SSD S.M.A.R.T. LOG" off 2>/dev/null`;
 
     case $answer in
         "1")
-        echo $passwort | sudo -S -s apt update -y; sudo -S -s apt upgrade -y; sudo -S -s apt dist-upgrade -y; sudo -S -s apt clean -y; sudo -S -s apt autoclean -y; sudo -S -s apt-get -f install -y;  sudo -S -s apt autoremove --purge -y;
+        #nur wenn kein PackageKit verwendet werden sool
+        #echo $passwort | sudo -S -s apt update -y; sudo -S -s apt upgrade -y; sudo -S -s apt full-upgrade -y; sudo -S -s apt clean -y; sudo -S -s apt autoclean -y; sudo -S -s apt-get -f install -y;  sudo -S -s apt autoremove --purge -y;
+        #pkcon und apt Befehle
+        echo $passwort | sudo -S -s sudo pkcon refresh force -c -1 && pkcon update -y; sudo -S -s apt clean -y; sudo -S -s apt autoclean -y; sudo -S -s apt-get -f install -y;  sudo -S -s apt autoremove --purge -y;
            if [ $flatpak -gt 0 ]
               then
               echo;
@@ -74,7 +82,7 @@ zugriffsrechte=0;
         kdialog --msgbox "Systemaktualisierung fertig.\nBitte die Konsolenausgabe auf evtl. Fehler prüfen." 2>/dev/null;
         ;;
         "2")
-        echo $passwort | sudo -S -s dpkg --configure -a; sudo -S -s apt upgrade -f -y; sudo -S -s apt dist-upgrade -f -y;
+        echo $passwort | sudo -S -s dpkg --configure -a; sudo -S -s apt upgrade -f -y; sudo -S -s apt full-upgrade -f -y;
         kdialog --msgbox "System ist repariert.\nBitte die Konsolenausgabe auf evtl. Fehler prüfen." 2>/dev/null;
         ;;
         "3")
@@ -183,7 +191,7 @@ zugriffsrechte=0;
         #echo $passwort | sudo -S -s apt install nvme-cli -y; #wenn nicht installiert
         #reset;
         echo $passwort | sudo -S -s sudo nvme --smart-log /dev/nvme0n1;
-        kdialog --msgbox "NVME SSD DEVICE S.M.A.R.T. LOG" 2>/dev/null;
+        kdialog --msgbox "NVMe SSD DEVICE S.M.A.R.T. LOG" 2>/dev/null;
         ;;        
         *) echo "abgebrochen";;
     esac
