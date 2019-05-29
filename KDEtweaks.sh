@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-version="V19.05.033";
+version="V19.05.034";
 # Neu seit 33: nutze zusätzlich als ersten Befehl das Toolkit pkcon, wie von den KDE neon Entwickler empfohlen (apt bleibt, z.B. um alten Kernel zu entfernen)
 # Quelle: https://neon.kde.org/faq#command-to-update
 #
@@ -71,7 +71,7 @@ zugriffsrechte=0;
         #nur wenn kein PackageKit verwendet werden sool
         #echo $passwort | sudo -S -s apt update -y; sudo -S -s apt upgrade -y; sudo -S -s apt full-upgrade -y; sudo -S -s apt clean -y; sudo -S -s apt autoclean -y; sudo -S -s apt-get -f install -y;  sudo -S -s apt autoremove --purge -y;
         #pkcon und apt Befehle
-        echo $passwort | sudo -S -s sudo pkcon refresh force -c -1 && pkcon update -y; sudo -S -s apt clean -y; sudo -S -s apt autoclean -y; sudo -S -s apt-get -f install -y;  sudo -S -s apt autoremove --purge -y;
+        echo $passwort | sudo -S -s pkcon refresh force -c -1 && sudo -S -s pkcon update -y; sudo -S -s apt clean -y; sudo -S -s apt autoclean -y; sudo -S -s apt-get -f install -y;  sudo -S -s apt autoremove --purge -y;
            if [ $flatpak -gt 0 ]
               then
               echo;
