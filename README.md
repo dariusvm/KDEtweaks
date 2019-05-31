@@ -32,12 +32,12 @@ Diese Punkte können immer gefahrlos ausgeführt werden
 
 Hinweis zu Punkt 4:
    - Punkt 1 entfernt alte Kernel bis auf die beiden neuesten Kernel
-   - ab Ubuntu 16.04.2 oder 18.04.2 gibt es Rolling HWE Stacks und muss - wenn verwendet - im Script aktiviert werden!
+   - ab Ubuntu 18.04.2 gibt es wieder Rolling HWE Stacks und muss - wenn verwendet - im Script aktiviert werden!
    - Quelle: https://wiki.ubuntu.com/Kernel/LTSEnablementStack
 
 
 Hinweis zu Punkt 5:
-   - wer Kernels updatet, bekommt dabei häufig die Fehlermeldung: No support for locale: de_DE.utf8
+   - wer Kernels updatet und dabei die Fehlermeldung "No support for locale: de_DE.utf8" erhält, kann das hiermit fixen
    - das ist kein wirkliches Problem (nervig - aber harmlos) und wird hiermit behoben - kann ein paar Minuten dauern...
 
 
@@ -54,8 +54,8 @@ Hinweis zu Punkt 7:
 
 
 Hinweis zu Punkt 8:
-Benutzte man für eine grafische Anwendungen sudo anstatt kdesudo (gksudo) kann das zu Rechte-Probleme führen.
-Merke: Für Anwendungen mit einer GUI, nie sudo benutzen! Beheben könnt ihr das mit diesem Punkt, beachtet aber folgendes:
+Benutzte man für eine grafische Anwendungen sudo, kann das zu Rechte-Probleme führen.
+Merke: Für Anwendungen mit einer GUI, nie sudo benutzen! Beheben könnt ihr das mit diesem Punkt, Achtung:
    - alle Dateien im home Ordner werden dem Home User zugeschrieben, dabei werden auch alle *.sh, und *.desktop Dateien ausführbar gemacht (chmod 0754)
    - wenn vorhanden werden die Zugriffsrechte des Ordners ~/public_html auch angepasst (siehe Apache Modul mod_userdir)
 
