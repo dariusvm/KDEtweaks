@@ -17,9 +17,8 @@ passwort="";
 flatpak=0;
 #
 #
-# welcher Kernel wird benutzt? Wichtig für Punkt 4!
-# ab Ubuntu 16.04.2 gibt es Rolling HWE Stacks, wenn dieser verwendet wird dann z.B.: kernel="linux-generic-hwe-16.04 xserver-xorg-hwe-16.04"
-# ab Ubuntu 18.04 ist es wieder "linux-generic" und bei 18.04.2 wird es wahrscheinlich ab Feb. 2019 "linux-generic-hwe-18.04 xserver-xorg-hwe-18.04"
+# welcher Kernel wird benutzt? Wichtig für Punkt 4, denn seit Ubuntu 16.04.2 werden Rolling HWE Stacks genutzt (kein muss!)
+# ab Ubuntu 18.04 ist es wieder "linux-generic" (4.15 LTS) und bei 18.04.2 kann wieder "linux-generic-hwe-18.04 xserver-xorg-hwe-18.04" genutzt werden
 kernel="linux-generic";
 #
 #
