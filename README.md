@@ -75,8 +75,7 @@ Achtung: Script Variablen richtig setzten!
    - Variable "passwort" kann leer bleiben, dann werdet ihr bei jedem Aufruf nach dem Passwort gefragt
    - Das Passwort sollte nur gespeichert werden wenn euer Homeverzeichnis verschlüsselt ist
    - Flatpak ist eine Alternative zu Canonical snap Apps - Flatpak Updates kann mit "flatpak=1" aktiviert werden
-   - Variable "kernel" muss richtig gesetzt sein - seit Ubuntu 16.04.2 wird Rolling HWE Stacks benutzt
-
+   - Variable "kernel" muss richtig gesetzt sein - ab Ubuntu 18.04.2 kann wieder Rolling HWE Stacks genutzt werden (kein muss!)
 
 
 ---
